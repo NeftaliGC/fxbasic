@@ -1,4 +1,4 @@
-# casio-tools
+# fxbasic
 
 Herramientas en Python para pasar programas **Casio BASIC** desde la PC (Linux) a una calculadora **Casio fx-9750GII** por USB, sin FA-124 ni Windows.
 
@@ -12,13 +12,14 @@ Probado con una fx-9750GII (OS 02.04.0701) en CachyOS (Arch). En teoría tambié
 
 | Archivo | Qué hace |
 |---|---|
-| `casio_tools/send.py` | Comando `casio-send`: envía un programa `.txt` a la calculadora y lo verifica. |
-| `casio_tools/get.py` | Comando `casio-get`: descarga (solo lectura) toda la memoria principal a `./dump/`. Sirve para respaldar y para investigar. |
-| `casio_tools/tokens.py` | Tokenizador: convierte texto Casio BASIC a bytes, y bytes a texto. |
-| `casio_tools/proto.py` | Enlace USB y paquetes de Protocol 7.00 (compartido). |
-| `casio_tools/chars.toml` | Tabla de caracteres y comandos de CASIO, tomada de [Cahute](https://cahute.org). Ver [Licencia y créditos](#licencia-y-créditos). |
+| `fxbasic/cli.py` | Comando `fxbasic`: recibe el subcomando (`send` o `get`) y llama al módulo correspondiente. |
+| `fxbasic/send.py` | Subcomando `fxbasic send`: envía un programa `.txt` a la calculadora y lo verifica. |
+| `fxbasic/get.py` | Subcomando `fxbasic get`: descarga (solo lectura) toda la memoria principal a `./dump/`. Sirve para respaldar y para investigar. |
+| `fxbasic/tokens.py` | Tokenizador: convierte texto Casio BASIC a bytes, y bytes a texto. |
+| `fxbasic/proto.py` | Enlace USB y paquetes de Protocol 7.00 (compartido). |
+| `fxbasic/chars.toml` | Tabla de caracteres y comandos de CASIO, tomada de [Cahute](https://cahute.org). Ver [Licencia y créditos](#licencia-y-créditos). |
 | `programas/` | Programas en texto listos para enviar (PRUEBA, DIST, VEC, TABU). |
-| `dump/` | Lo que descarga `casio-get` (respaldo de la calculadora). Ignorado por git. |
+| `dump/` | Lo que descarga `fxbasic get` (respaldo de la calculadora). Ignorado por git. |
 
 ---
 
@@ -45,25 +46,25 @@ Después, instala la herramienta. Elige una forma:
 pipx install .                 # desde la carpeta del repositorio
 ```
 
-Así quedan disponibles `casio-send` y `casio-get` en cualquier carpeta. pyusb se instala solo. Si no tienes pipx: `sudo pacman -S python-pipx`. También sirve un entorno virtual:
+Así queda disponible el comando `fxbasic` en cualquier carpeta. pyusb se instala solo. Si no tienes pipx: `sudo pacman -S python-pipx`. También sirve un entorno virtual:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install .
-.venv/bin/casio-send programas/PRUEBA.txt --seco
+.venv/bin/fxbasic send programas/PRUEBA.txt --seco
 ```
 
 **B. Sin instalar nada (con pyusb del sistema):**
 
 ```bash
 sudo pacman -S python-pyusb
-python3 -m casio_tools.send programas/PRUEBA.txt --seco   # en lugar de casio-send
-python3 -m casio_tools.get --check -v                     # en lugar de casio-get
+python3 -m fxbasic send programas/PRUEBA.txt --seco   # en lugar de fxbasic send
+python3 -m fxbasic get --check -v                     # en lugar de fxbasic get
 ```
 
 Se ejecuta desde la carpeta del repositorio.
 
-En todos los casos hace falta `libusb` del sistema (en Arch ya viene como dependencia). Si Arch actualiza Python a una versión mayor, reinstala con `pipx reinstall casio-tools` o vuelve a crear `.venv/`.
+En todos los casos hace falta `libusb` del sistema (en Arch ya viene como dependencia). Si Arch actualiza Python a una versión mayor, reinstala con `pipx reinstall fxbasic` o vuelve a crear `.venv/`.
 
 ---
 
@@ -80,10 +81,10 @@ Después de cada envío o descarga, la calculadora sale de ese modo. Para la sig
 
 ```bash
 # 1. Revisar sin USB qué se va a mandar (texto reconstruido y bytes)
-casio-send programas/PRUEBA.txt --seco
+fxbasic send programas/PRUEBA.txt --seco
 
 # 2. Enviar
-casio-send programas/PRUEBA.txt
+fxbasic send programas/PRUEBA.txt
 ```
 
 Después, en la calculadora: **MENU > PRGM > PRUEBA > EXE**.
@@ -99,8 +100,8 @@ Después, en la calculadora: **MENU > PRGM > PRUEBA > EXE**.
 ### Descargar la memoria de la calculadora
 
 ```bash
-casio-get --check -v   # solo saludo e info del equipo (como `p7 info`)
-casio-get -v           # descarga todo a ./dump/ y crea dump/indice.json
+fxbasic get --check -v   # solo saludo e info del equipo (como `p7 info`)
+fxbasic get -v           # descarga todo a ./dump/ y crea dump/indice.json
 ```
 
 La descarga no modifica nada en la calculadora.
@@ -160,7 +161,7 @@ Los datos se codifican con el escape `0x5C` (bytes menores a `0x20` → `\` + by
 
 ### Formato de un programa en memoria
 
-Obtenido descargando programas de la calculadora con `casio-get`:
+Obtenido descargando programas de la calculadora con `fxbasic get`:
 
 | Campo | Valor |
 |---|---|
@@ -225,7 +226,7 @@ Revisa que tu usuario esté en el grupo `uucp` (`groups | grep uucp`) y que haya
 
 - Enviar varios programas en una sola sesión.
 - Enviar listas y matrices desde archivos (CSV).
-- Que `casio-get` guarde los programas descargados como `.txt` legibles.
+- Que `fxbasic get` guarde los programas descargados como `.txt` legibles.
 - Probar y depurar TABU en la calculadora.
 
 ---
@@ -234,7 +235,7 @@ Revisa que tu usuario esté en el grupo `uucp` (`groups | grep uucp`) y que haya
 
 Este proyecto se distribuye bajo la licencia **GPL-3.0 o posterior** (ver [`LICENSE`](LICENSE)).
 
-- **[Cahute](https://cahute.org)**, de Thomas Touhey: la documentación de Protocol 7.00 que hizo posible este proyecto, y el archivo `casio_tools/chars.toml`, que se incluye sin cambios bajo su licencia original [CeCILL 2.1](https://cecill.info) (compatible con la GPL). Su encabezado de licencia debe conservarse.
+- **[Cahute](https://cahute.org)**, de Thomas Touhey: la documentación de Protocol 7.00 que hizo posible este proyecto, y el archivo `fxbasic/chars.toml`, que se incluye sin cambios bajo su licencia original [CeCILL 2.1](https://cecill.info) (compatible con la GPL). Su encabezado de licencia debe conservarse.
 - Los formatos y el comportamiento de la fx-9750GII se verificaron con capturas USB (`usbmon`) y descargas de la propia calculadora.
 
 Este proyecto no está afiliado a CASIO. Úsalo bajo tu propio riesgo. Escribir en la memoria principal es de bajo riesgo, pero lo peor que podría pasar es perder lo que tengas guardado en la calculadora.

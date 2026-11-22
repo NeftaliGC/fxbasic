@@ -3,7 +3,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "casio-tools"
+name = "fxbasic"
 dynamic = ["version"]
 description = "Envía programas Casio BASIC a calculadoras fx-9860G/fx-9750GII por USB (Protocol 7.00), sin FA-124 ni Windows."
 readme = "README.md"
@@ -21,14 +21,13 @@ classifiers = [
 ]
 
 [project.scripts]
-casio-send = "casio_tools.send:main"
-casio-get = "casio_tools.get:main"
+fxbasic = "fxbasic.cli:main"
 
 [tool.setuptools]
-packages = ["casio_tools"]
+packages = ["fxbasic"]
 
 [tool.setuptools.package-data]
-casio_tools = ["chars.toml"]
+fxbasic = ["chars.toml"]
 
 [tool.setuptools.dynamic]
-version = { attr = "casio_tools.__version__" }
+version = { attr = "fxbasic.__version__" }

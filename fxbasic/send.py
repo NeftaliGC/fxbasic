@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2026 NeftaliGC
 # SPDX-License-Identifier: GPL-3.0-or-later
 """
-casio-send - Envia un programa Casio BASIC (texto) a la memoria principal
+fxbasic send - Envia un programa Casio BASIC (texto) a la memoria principal
 de una fx-9750GII / fx-9860G por USB (Protocol 7.00).
 
 Uso:
-    casio-send programas/PRUEBA.txt --seco      # solo convertir y mostrar, sin USB
-    casio-send programas/PRUEBA.txt -v          # enviar (y verificar)
-    casio-send VEC.txt --nombre VEC2 --forzar   # otro nombre, sobrescribir sin preguntar
+    fxbasic send programas/PRUEBA.txt --seco      # solo convertir y mostrar, sin USB
+    fxbasic send programas/PRUEBA.txt -v          # enviar (y verificar)
+    fxbasic send VEC.txt --nombre VEC2 --forzar   # otro nombre, sobrescribir sin preguntar
 
 Opciones:
     --nombre N        nombre en la calculadora (A-Z, 0-9, max 8). Por defecto: nombre del archivo.
@@ -40,7 +40,7 @@ def opcion(nombre, con_valor=False):
 
 def campos_programa(nombre: str, tam: int, ow: str = "00") -> bytes:
     """Campos del comando 24/25 para un programa: tipo 01, 'system', nombre, 'PROGRAM'
-    (igual que los manda la calculadora; ver volcado de casio-get)."""
+    (igual que los manda la calculadora; ver volcado de fxbasic get)."""
     d1, d2, d3 = b"system", nombre.encode(), b"PROGRAM"
     cab = f"{ow}01{tam:08X}{len(d1):02X}{len(d2):02X}{len(d3):02X}000000".encode()
     return cab + d1 + d2 + d3
