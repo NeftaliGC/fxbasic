@@ -53,7 +53,7 @@ def info_equipo(link: Link):
     if t != T_ACK or st != 0x02:
         sys.exit(f"Esperaba ACK extendido, llego {NOMBRES.get(t, hex(t))} {st:02X}")
     d = unpad(d)
-    campos = [("HWID", 0, 8), ("CPUID", 8, 16), ("OS", 0x50, 16),
+    campos = [("HWID", 0, 8), ("CPUID", 8, 16), ("OS", 0x60, 16),
               ("Producto", 0x84, 16), ("Usuario", 0x94, 16)]
     for nombre, ini, tam in campos:
         print(f"   {nombre:9}: {d[ini:ini + tam].decode('latin-1').strip(chr(0xFF)).strip()}")
