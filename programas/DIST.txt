@@ -1,0 +1,13 @@
+Dim List 2→N
+ClrMat A
+{N,N}→Dim Mat A
+"1:EUC 2:MAN"?→D
+For 1→I To N
+List 2-List 2[I]→List 4
+List 3-List 3[I]→List 5
+√(List 4²+List 5²)→List 6
+D=2⇒Abs List 4+Abs List 5→List 6
+For 1→J To N
+List 6[J]→Mat A[I,J]
+Next
+Next

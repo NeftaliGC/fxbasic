@@ -1,0 +1,257 @@
+## ===== MENU PRINCIPAL =====
+Lbl 0
+ClrText
+"1:DISTANC 2:SOLUCION"
+"3:VECINOS 4:APLICAR"
+"5:VER TABU 6:REINIC"
+"7:VER SOL  0:SALIR"
+"OPCION"?→O
+O=0⇒Stop
+O=1⇒Goto 1
+O=2⇒Goto 2
+O=3⇒Goto 3
+O=4⇒Goto 4
+O=5⇒Goto 5
+O=6⇒Goto 6
+O=7⇒Goto 7
+Goto 0
+
+## ===== 1: MATRIZ DE DISTANCIAS (Mat A) =====
+Lbl 1
+ClrText
+"N PUNTOS"?→N
+ClrMat A
+{N,N}→Dim Mat A
+"1:COORD 2:TABLA"?→O
+If O=1
+Then
+N→Dim List 2
+N→Dim List 3
+For 1→I To N
+ClrText
+Locate 1,7,"PUNTO"
+Locate 7,7,I
+"X"?→X
+X→List 2[I]
+"Y"?→Y
+Y→List 3[I]
+Next
+ClrText
+"1:EUCLID 2:MANHAT"?→D
+"DECIMALES(9=NO)"?→F
+For 1→I To N
+For 1→J To N
+List 2[I]-List 2[J]→X
+List 3[I]-List 3[J]→Y
+√(X²+Y²)→S
+D=2⇒Abs X+Abs Y→S
+F≠9⇒Int (S×10^F+0.5)÷10^F→S
+S→Mat A[I,J]
+Next
+Next
+Else
+For 1→I To N-1
+For I+1→J To N
+ClrText
+Locate 1,7,"D("
+Locate 3,7,I
+Locate 5,7,","
+Locate 6,7,J
+Locate 8,7,")"
+"DISTANCIA"?→S
+S→Mat A[I,J]
+S→Mat A[J,I]
+Next
+Next
+IfEnd
+Goto 6
+
+## ===== 2: SOLUCION ACTUAL (List 1) =====
+Lbl 2
+ClrText
+"1:MANUAL 2:ALEAT"?→O
+N→Dim List 1
+If O=2
+Then
+For 1→I To N
+I→List 1[I]
+Next
+For N→I To 2 Step -1
+Int (Ran#×I)+1→J
+List 1[I]→S
+List 1[J]→List 1[I]
+S→List 1[J]
+Next
+Else
+For 1→I To N
+ClrText
+Locate 1,7,"POSICION"
+Locate 10,7,I
+"ELEMENTO"?→S
+S→List 1[I]
+Next
+IfEnd
+Goto 7
+
+## ===== 3: GENERAR VECINOS (Mat C) =====
+Lbl 3
+ClrText
+"1:SWAP 2:INSERCION"
+"3:2-OPT"
+"TIPO"?→M
+"FIJAR POS 1?(1=SI)"?→G
+1→B
+G=1⇒2→B
+N-B+1→Q
+(Q-1)²→K
+M≠2⇒Q(Q-1)÷2→K
+ClrMat C
+{K,N+3}→Dim Mat C
+0→K
+## --- swap: intercambia posiciones I y J ---
+If M=1
+Then
+For B→I To N-1
+For I+1→J To N
+K+1→K
+For 1→P To N
+List 1[P]→Mat C[K,P]
+Next
+List 1[J]→Mat C[K,I]
+List 1[I]→Mat C[K,J]
+List 1[I]→X
+List 1[J]→Y
+If X>Y
+Then
+X→S
+Y→X
+S→Y
+IfEnd
+X→Mat C[K,N+1]
+Y→Mat C[K,N+2]
+Mat T[X,Y]→Mat C[K,N+3]
+Next
+Next
+IfEnd
+## --- insercion: mueve el elemento de la pos I a la pos J ---
+If M=2
+Then
+For B→I To N
+For B→J To N
+If (J-I)(J-I+1)≠0
+Then
+K+1→K
+For 1→P To N
+List 1[P]→Mat C[K,P]
+Next
+If J>I
+Then
+For I→P To J-1
+List 1[P+1]→Mat C[K,P]
+Next
+Else
+For J+1→P To I
+List 1[P-1]→Mat C[K,P]
+Next
+IfEnd
+List 1[I]→Mat C[K,J]
+List 1[I]→X
+X→Mat C[K,N+1]
+J→Mat C[K,N+2]
+Mat T[X,J]→Mat C[K,N+3]
+IfEnd
+Next
+Next
+IfEnd
+## --- 2-opt: invierte el tramo entre las pos I y J ---
+If M=3
+Then
+For B→I To N-1
+For I+1→J To N
+K+1→K
+For 1→P To N
+List 1[P]→Mat C[K,P]
+Next
+For 0→P To J-I
+List 1[J-P]→Mat C[K,I+P]
+Next
+I→Mat C[K,N+1]
+J→Mat C[K,N+2]
+Mat T[I,J]→Mat C[K,N+3]
+Next
+Next
+IfEnd
+ClrText
+Locate 1,1,"VECINOS:"
+Locate 10,1,K
+Locate 1,2,"ESTAN EN MAT C"
+Locate 1,3,"1 FILA = 1 VECINO"
+Locate 1,7,"EXE:MENU"
+While Getkey≠31
+WhileEnd
+Goto 0
+
+## ===== 4: APLICAR VECINO ELEGIDO =====
+Lbl 4
+ClrText
+"FILA ELEGIDA"?→R
+For 1→I To N
+For 1→J To N
+Mat T[I,J]>0⇒Mat T[I,J]-1→Mat T[I,J]
+Next
+Next
+Mat C[R,N+1]→X
+Mat C[R,N+2]→Y
+L→Mat T[X,Y]
+For 1→P To N
+Mat C[R,P]→List 1[P]
+Next
+Goto 7
+
+## ===== 5: VER LISTA TABU =====
+Lbl 5
+ClrText
+Locate 1,1,"I"
+Locate 5,1,"J"
+Locate 9,1,"ITER"
+2→Y
+For 1→I To N
+For 1→J To N
+If Mat T[I,J]>0
+Then
+If Y<7
+Then
+Locate 1,Y,I
+Locate 5,Y,J
+Locate 9,Y,Mat T[I,J]
+IfEnd
+Y+1→Y
+IfEnd
+Next
+Next
+Y>7⇒Locate 13,1,"+MAT T"
+Locate 1,7,"EXE:MENU"
+While Getkey≠31
+WhileEnd
+Goto 0
+
+## ===== 6: REINICIAR TABU (Mat T) =====
+Lbl 6
+ClrText
+"ITERACIONES TABU"?→L
+ClrMat T
+{N,N}→Dim Mat T
+Goto 0
+
+## ===== 7: VER SOLUCION ACTUAL =====
+Lbl 7
+ClrText
+Locate 1,1,"SOLUCION ACTUAL:"
+For 1→I To N
+I-1→P
+Locate 3(P-7Int (P÷7))+1,Int (P÷7)+2,List 1[I]
+Next
+Locate 1,7,"EXE:MENU"
+While Getkey≠31
+WhileEnd
+Goto 0

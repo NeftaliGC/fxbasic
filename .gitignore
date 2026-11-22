@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+# Respaldo personal de la memoria de la calculadora (lo genera casio-get)
+dump/
+.venv/
+diagnostico/
+# Archivos de compilación
+build/
+dist/
+*.egg-info/

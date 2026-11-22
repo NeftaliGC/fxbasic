@@ -1,0 +1,28 @@
+Dim List 1→N
+"1:SWAP 2:2-OPT"?→M
+"FIJA POS 1?(1=SI)"?→G
+G+1→B
+N-B+1→Q
+Q(Q-1)÷2→K
+ClrMat C
+{K,N+2}→Dim Mat C
+0→K
+For B→I To N-1
+For I+1→J To N
+K+1→K
+For 1→P To N
+List 1[P]→Mat C[K,P]
+Next
+If M=1
+Then
+List 1[J]→Mat C[K,I]
+List 1[I]→Mat C[K,J]
+Else
+For 0→P To J-I
+List 1[J-P]→Mat C[K,I+P]
+Next
+IfEnd
+I→Mat C[K,N+1]
+J→Mat C[K,N+2]
+Next
+Next

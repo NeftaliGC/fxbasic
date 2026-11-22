@@ -1,0 +1,9 @@
+## Programa de prueba: si todo sale bien muestra dos OK y un 3
+ClrText
+"PRUEBA"
+1→A
+A=1⇒Locate 1,3,"FLECHAS OK"
+A≠2⇒Locate 1,4,"DISTINTO OK"
+√(9)→B
+Locate 1,5,B
+Locate 1,6,"DEBE SALIR 3"

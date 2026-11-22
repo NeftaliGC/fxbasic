@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "casio-tools"
+dynamic = ["version"]
+description = "Envía programas Casio BASIC a calculadoras fx-9860G/fx-9750GII por USB (Protocol 7.00), sin FA-124 ni Windows."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+authors = [{ name = "NeftaliGC" }]
+dependencies = ["pyusb>=1.2"]
+keywords = ["casio", "fx-9750gii", "fx-9860g", "casio-basic", "usb", "protocol7"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+    "Environment :: Console",
+    "Topic :: System :: Hardware",
+]
+
+[project.scripts]
+casio-send = "casio_tools.send:main"
+casio-get = "casio_tools.get:main"
+
+[tool.setuptools]
+packages = ["casio_tools"]
+
+[tool.setuptools.package-data]
+casio_tools = ["chars.toml"]
+
+[tool.setuptools.dynamic]
+version = { attr = "casio_tools.__version__" }
