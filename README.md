@@ -62,7 +62,7 @@ Clona el repositorio (`git clone https://github.com/NeftaliGC/fxbasic`) y, dentr
 ```bash
 sudo pacman -S python-pyusb
 python3 -m fxbasic send programas/PRUEBA.txt --seco   # en lugar de fxbasic send
-python3 -m fxbasic get --check -v                     # en lugar de fxbasic get
+python3 -m fxbasic get --check --detalle              # en lugar de fxbasic get
 ```
 
 En todos los casos hace falta `libusb` del sistema (en Arch ya viene como dependencia). Si Arch actualiza Python a una versión mayor, reinstala con `pipx reinstall fxbasic` o vuelve a crear `.venv/`.
@@ -96,16 +96,24 @@ Después, en la calculadora: **MENU > PRGM > PRUEBA > EXE**.
 | `--forzar` | Sobrescribe sin preguntar si ya existe un programa con ese nombre. |
 | `--seco` | No usa el USB: solo tokeniza y muestra el resultado. |
 | `--sin-verificar` | No vuelve a descargar el programa para compararlo. |
-| `-v` | Muestra cada paquete enviado y recibido. |
+| `-d`, `--detalle` | Muestra cada paquete enviado y recibido. |
 
 ### Descargar la memoria de la calculadora
 
 ```bash
-fxbasic get --check -v   # solo saludo e info del equipo (como `p7 info`)
-fxbasic get -v           # descarga todo a ./dump/ y crea dump/indice.json
+fxbasic get --check --detalle   # solo saludo e info del equipo (como `p7 info`)
+fxbasic get --detalle           # descarga todo a ./dump/ y crea dump/indice.json
 ```
 
 La descarga no modifica nada en la calculadora.
+
+### Ayuda y versión
+
+```bash
+fxbasic --help          # lista de subcomandos
+fxbasic send --help     # opciones de cada subcomando (no usa el USB)
+fxbasic -v              # versión y licencia (también --version)
+```
 
 ---
 

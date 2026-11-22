@@ -6,7 +6,7 @@ de una fx-9750GII / fx-9860G por USB (Protocol 7.00).
 
 Uso:
     fxbasic send programas/PRUEBA.txt --seco      # solo convertir y mostrar, sin USB
-    fxbasic send programas/PRUEBA.txt -v          # enviar (y verificar)
+    fxbasic send programas/PRUEBA.txt --detalle   # enviar (y verificar)
     fxbasic send VEC.txt --nombre VEC2 --forzar   # otro nombre, sobrescribir sin preguntar
 
 Opciones:
@@ -14,7 +14,7 @@ Opciones:
     --forzar          si ya existe un programa con ese nombre, sobrescribirlo sin preguntar.
     --seco            no usar USB: solo tokenizar y mostrar el resultado.
     --sin-verificar   no volver a descargar el programa para compararlo.
-    -v                mostrar cada paquete.
+    -d, --detalle     mostrar cada paquete enviado y recibido.
 
 La calculadora debe estar conectada DIRECTO (sin hub) y en DataTrans (F1).
 """

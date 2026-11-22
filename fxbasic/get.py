@@ -5,8 +5,8 @@ fxbasic get - Descarga (SOLO LECTURA) la memoria principal de una
 Casio fx-9750GII / fx-9860G por USB usando Protocol 7.00.
 
 Uso:
-    fxbasic get --check -v   # solo saludo + info del equipo (como p7 info)
-    fxbasic get -v           # descarga todo a ./dump/
+    fxbasic get --check --detalle   # solo saludo + info del equipo (como p7 info)
+    fxbasic get --detalle           # descarga todo a ./dump/
 
 IMPORTANTE: conecta la calculadora DIRECTO a la PC (sin hub USB).
 

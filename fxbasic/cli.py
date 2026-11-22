@@ -5,8 +5,8 @@ fxbasic - Pasa programas Casio BASIC entre la PC y una fx-9750GII / fx-9860G por
 
 Uso:
     fxbasic send PROGRAMA.txt [opciones]   enviar un programa a la calculadora
-    fxbasic get [--check] [-v]             descargar la memoria principal a ./dump/
-    fxbasic --version                      mostrar la version y la licencia
+    fxbasic get [--check] [--detalle]      descargar la memoria principal a ./dump/
+    fxbasic -v, --version                  mostrar la version y la licencia
 
 Ayuda de cada subcomando:  fxbasic send --help  /  fxbasic get --help
 """
@@ -24,14 +24,14 @@ redistribuirlo bajo los terminos de la GPL-3.0 o posterior (ver LICENSE)."""
 def main():
     if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
         sys.exit(__doc__)
-    if sys.argv[1] == "--version":
-        print(AVISO)
+    if "-v" in sys.argv[1:] or "--version" in sys.argv[1:]:
+        print(AVISO)  # tambien tras un subcomando, sin tocar el USB
         return
     sub = sys.argv[1]
     if sub not in SUBCOMANDOS:
         sys.exit(f"Subcomando desconocido '{sub}'. Usa: {', '.join(SUBCOMANDOS)}.\n{__doc__}")
 
-    # Los subcomandos leen sys.argv al importarse (p. ej. -v en proto.py), asi
+    # Los subcomandos leen sys.argv al importarse (p. ej. --detalle en proto.py), asi
     # que se quita el subcomando antes de importarlos.
     sys.argv = [f"fxbasic {sub}"] + sys.argv[2:]
     if sub == "send":

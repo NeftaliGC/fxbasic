@@ -15,7 +15,7 @@ except ImportError:
 
 VID, PID = 0x07CF, 0x6101
 TIMEOUT_MS = 10000
-VERBOSE = "-v" in sys.argv
+VERBOSE = "--detalle" in sys.argv or "-d" in sys.argv
 
 # Tipos de paquete (T)
 T_CMD, T_DATA, T_ROLESWAP, T_CHECK, T_ACK, T_NAK, T_TERM = (
@@ -146,7 +146,7 @@ class Link:
                 self.buf += bytes(self.ep_in.read(32768, TIMEOUT_MS))
             except usb.core.USBTimeoutError:
                 sys.exit("\nTiempo agotado esperando a la calculadora. "
-                            "Vuelve a intentarlo con -v y reporta la salida en un issue.")
+                            "Vuelve a intentarlo con --detalle y reporta la salida en un issue.")
             except usb.core.USBError as e:
                 if getattr(e, "errno", None) == 5 and self.io_errores < 3:
                     # EIO: limpiar el endpoint y volver a leer
