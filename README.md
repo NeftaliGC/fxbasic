@@ -43,15 +43,15 @@ Después, instala la herramienta. Elige una forma:
 **A. Instalarla como comando (recomendado):**
 
 ```bash
-pipx install git+https://github.com/NeftaliGC/fxbasic   # directo de GitHub
-pipx install .                                          # o desde una copia clonada
+pipx install fxbasic                                    # desde PyPI
+pipx install git+https://github.com/NeftaliGC/fxbasic   # o la versión en desarrollo, de GitHub
 ```
 
 Así queda disponible el comando `fxbasic` en cualquier carpeta. pyusb se instala solo. Si no tienes pipx: `sudo pacman -S python-pipx`. También sirve un entorno virtual:
 
 ```bash
 python3 -m venv .venv
-.venv/bin/pip install .
+.venv/bin/pip install fxbasic
 .venv/bin/fxbasic send programas/PRUEBA.txt --seco
 ```
 
@@ -242,7 +242,7 @@ Revisa que tu usuario esté en el grupo `uucp` (`groups | grep uucp`) y que haya
 
 ## Licencia y créditos
 
-Este proyecto se distribuye bajo la licencia **GPL-3.0 o posterior** (ver [`LICENSE`](LICENSE)).
+Este proyecto se distribuye bajo la licencia **GPL-3.0 o posterior** (ver [`LICENSE`](https://github.com/NeftaliGC/fxbasic/blob/main/LICENSE)).
 
 - **[Cahute](https://cahute.org)**, de Thomas Touhey: la documentación de Protocol 7.00 que hizo posible este proyecto, y el archivo `fxbasic/chars.toml`, que se incluye sin cambios bajo su licencia original [CeCILL 2.1](https://cecill.info) (compatible con la GPL). Su encabezado de licencia debe conservarse.
 - Los formatos y el comportamiento de la fx-9750GII se verificaron con capturas USB (`usbmon`) y descargas de la propia calculadora.

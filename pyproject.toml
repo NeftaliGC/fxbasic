@@ -24,6 +24,7 @@ classifiers = [
 Homepage = "https://github.com/NeftaliGC/fxbasic"
 Source = "https://github.com/NeftaliGC/fxbasic"
 Issues = "https://github.com/NeftaliGC/fxbasic/issues"
+Changelog = "https://github.com/NeftaliGC/fxbasic/blob/main/CHANGELOG.md"
 
 [project.scripts]
 fxbasic = "fxbasic.cli:main"
