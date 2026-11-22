@@ -43,7 +43,8 @@ Después, instala la herramienta. Elige una forma:
 **A. Instalarla como comando (recomendado):**
 
 ```bash
-pipx install .                 # desde la carpeta del repositorio
+pipx install git+https://github.com/NeftaliGC/fxbasic   # directo de GitHub
+pipx install .                                          # o desde una copia clonada
 ```
 
 Así queda disponible el comando `fxbasic` en cualquier carpeta. pyusb se instala solo. Si no tienes pipx: `sudo pacman -S python-pipx`. También sirve un entorno virtual:
@@ -56,13 +57,13 @@ python3 -m venv .venv
 
 **B. Sin instalar nada (con pyusb del sistema):**
 
+Clona el repositorio (`git clone https://github.com/NeftaliGC/fxbasic`) y, dentro de la carpeta:
+
 ```bash
 sudo pacman -S python-pyusb
 python3 -m fxbasic send programas/PRUEBA.txt --seco   # en lugar de fxbasic send
 python3 -m fxbasic get --check -v                     # en lugar de fxbasic get
 ```
-
-Se ejecuta desde la carpeta del repositorio.
 
 En todos los casos hace falta `libusb` del sistema (en Arch ya viene como dependencia). Si Arch actualiza Python a una versión mayor, reinstala con `pipx reinstall fxbasic` o vuelve a crear `.venv/`.
 

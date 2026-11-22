@@ -20,6 +20,11 @@ classifiers = [
     "Topic :: System :: Hardware",
 ]
 
+[project.urls]
+Homepage = "https://github.com/NeftaliGC/fxbasic"
+Source = "https://github.com/NeftaliGC/fxbasic"
+Issues = "https://github.com/NeftaliGC/fxbasic/issues"
+
 [project.scripts]
 fxbasic = "fxbasic.cli:main"
 
